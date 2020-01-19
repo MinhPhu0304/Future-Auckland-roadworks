@@ -12,7 +12,7 @@ return (
     <State.Provider value={{dispatch, state}}>
       <div className="App">
         <Map state={state}/>
-        <FetchScheduledWork/>
+        <FetchScheduledWork />
       </div>
     </State.Provider>
   );

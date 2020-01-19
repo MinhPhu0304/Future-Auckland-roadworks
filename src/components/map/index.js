@@ -1,39 +1,25 @@
-import React, { useState } from 'react'
-import DeckGL ,{ GeoJsonLayer, ScatterplotLayer } from 'deck.gl'
+import React, { useState, useContext } from 'react'
+import DeckGL, { ScatterplotLayer } from 'deck.gl'
 import { StaticMap } from 'react-map-gl'
 import { isEmpty } from 'ramda'
 
-const initialViewState = {
-  longitude: 174.764049,
-  latitude: -36.852096,
-  zoom: 14,
-};
-
+import { State } from '../../App'
 
 const MAP_BOX_TOKEN = process.env.REACT_APP_MAP_BOX_TOKEN || 'Get your own token'
-const defaultLayerOption = {
-  pickable: true,
-  opacity: 0.8,
-  stroked: true,
-  filled: true,
-  radiusScale: 10,
-  radiusMinPixels: 10,
-  radiusMaxPixels: 1000,
-  lineWidthMinPixels: 1,
-}
 
-export function Map({ state }) {
+export function Map () {
   const [hoveringObject, setHovering] = useState({})
-
+  const { state } = useContext(State)
   const { locationData } = state
+  
   const layer = generateDataPayload(locationData)
+  const defaultLayerOptions = getDefaultLayerOption()
   const scatteredPlotLayer = new ScatterplotLayer({
-    ...defaultLayerOption,
+    ...defaultLayerOptions,
     data: layer,
     getPosition: d => d.coordinates,
     getRadius: d => Math.sqrt(d.exits),
     getFillColor: d => [255, 140, 0],
-    getLineColor: d => [0, 0, 0],
     onHover: ({object, x, y}) => {
       if (object == null) {
         setHovering({})
@@ -47,17 +33,11 @@ export function Map({ state }) {
     }
   })
   return (
-    <DeckGL
-      initialViewState={initialViewState}
-      controller={true}
-      layers={[scatteredPlotLayer]}
-    >
-      <StaticMap 
-        mapStyle="mapbox://styles/mapbox/dark-v9"
-        mapboxApiAccessToken={MAP_BOX_TOKEN} />
+    <DeckGL initialViewState={getInitialMapView()} controller={true} layers={[scatteredPlotLayer]}>
+      <StaticMap mapStyle="mapbox://styles/mapbox/dark-v9"  mapboxApiAccessToken={MAP_BOX_TOKEN} />
       { !isEmpty(hoveringObject) && <Tooltip markerData={hoveringObject} pointerX={hoveringObject.pointerX} pointerY={hoveringObject.pointerY}/>}
     </DeckGL>
-  );
+  )
 }
 
 function generateDataPayload (locationData) {
@@ -69,6 +49,29 @@ function generateDataPayload (locationData) {
       coordinates: location.geometry.coordinates, 
     }
   })
+}
+
+function getDefaultLayerOption () {
+  return {
+    pickable: true,
+    opacity: 0.8,
+    stroked: true,
+    filled: true,
+    autoHighlight:  true,
+    radiusScale: 10,
+    radiusMinPixels: 10,
+    radiusMaxPixels: 1000,
+    highlightColorhighlightColor: 'blue',
+    lineWidthMinPixels: 1,
+  }
+}
+
+function getInitialMapView () {
+  return {
+    longitude: 174.764049,
+    latitude: -36.852096,
+    zoom: 14,
+  }
 }
 
 function Tooltip ({ markerData, pointerX, pointerY}) {
