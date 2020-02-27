@@ -12,20 +12,16 @@ To run the website locally, you will 2 api keys:
 - Click on your profile
 - You can generate the api key there
 
-## Mapbox API key
-- Google mapbox or go to [mapbox.com](https://www.mapbox.com/)
-- Follow the sign up process to get the api key
-
 ## Setting environment variable
 
 - IN the root project folder create a file named .env
 - Put your key value like the example bellow
 ```
-REACT_APP_MAP_BOX_TOKEN=KEY_HERE
 REACT_APP_AT_TRANSPORT_KEY=KEY_HERE
 ```
 
 ## Extra dependencies
-- Deck.gl
-- [react-map-gl](https://uber.github.io/react-map-gl/#/) - because I am lazy to write my own map components
 - [Ramda](https://ramdajs.com/) - Some functional programming to spice things up
+- [Leaflet](https://leafletjs.com/) - an open-source JavaScript library
+for mobile-friendly interactive maps
+- [React-Leaflet](https://react-leaflet.js.org/) - React components for 🍃 Leaflet maps
