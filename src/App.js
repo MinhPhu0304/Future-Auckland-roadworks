@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect } from 'react'
 
-import './App.css'
-import { Map } from './components/Map'
-import { fetchScheduledWork } from './components/DataFetching'
+import 'App.css'
+import { Map } from 'components/Map'
+import { fetchScheduledWork } from 'components/DataFetching'
 
 export const State = React.createContext({})
 
