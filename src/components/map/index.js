@@ -16,16 +16,13 @@ export function Map () {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         {
-          locationData.map((location) => {
-            console.log(location.geometry.coordinates)
-            return (
-              <Marker position={[location.latitude, location.longitude]}>
-                <Popup>
-                  {location.name}
-                </Popup>
-              </Marker>
-            )
-          })
+          locationData.map((location) => (
+            <Marker position={[location.latitude, location.longitude]}>
+              <Popup>
+                {location.name}
+              </Popup>
+            </Marker>
+          ))
         }
       </LeafletMap>
     </div>
