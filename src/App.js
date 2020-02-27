@@ -1,24 +1,27 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
 
 import './App.css'
 import { Map } from './components/map'
-import { FetchScheduledWork } from './components/DataFetching'
+import { fetchScheduledWork } from './components/DataFetching'
 
-export const State = React.createContext(null)
+export const State = React.createContext({})
 
 function App() {
-  const [state, dispatch] = useReducer(reducers, {})
-return (
-    <State.Provider value={{dispatch, state}}>
+  const [state, dispatch] = useReducer(reducers, { locationData: [] })
+  useEffect(() => {
+    fetchScheduledWork(dispatch)
+  }, [])
+
+  return (
+    <State.Provider value={{ dispatch, state }}>
       <div className="App">
-        <Map state={state}/>
-        <FetchScheduledWork />
+        <Map state={state} />
       </div>
     </State.Provider>
   );
 }
 
-function reducers (state, payload) {
+function reducers(state, payload) {
   const { action } = payload
 
   switch (action) {
@@ -26,7 +29,7 @@ function reducers (state, payload) {
       const { locationData } = payload
       return {
         ...state,
-        locationData 
+        locationData
       }
     default:
       return state
