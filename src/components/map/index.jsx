@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 
 import { Clustering } from 'utils'
-import { State } from 'App'
+import { State } from '../../App'
 import { Markers } from './Markers'
 
 export const MapRef = React.createRef() // For future use
