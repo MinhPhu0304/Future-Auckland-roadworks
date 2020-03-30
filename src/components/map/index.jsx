@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 
-import { Clustering } from 'utils'
+import { Clustering } from '../../utils'
 import { State } from '../../App'
 import { Markers } from './Markers'
 
