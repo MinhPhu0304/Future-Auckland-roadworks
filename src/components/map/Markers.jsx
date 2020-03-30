@@ -9,20 +9,34 @@ function MarkersDump ({ currentLocation, leaflet, cluster }) {
   const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
 
   const location = currentLocation.length === 0 ? cluster.getClusters(bbox, leaflet.map.getZoom()) : currentLocation
+
   return (
     <>
       {
-        location.map((location, index) => (
-          <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
-            <Popup>
-              {location.name}
-            </Popup>
-          </LeafletMarker>
-      ))}
+        location.map((location, index) => {
+          if (location.properties.cluster) return (<ClusterMarker location={location} key={index} />)
+          return (
+            <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
+              <Popup>
+                {location.properties.location.type}
+              </Popup>
+            </LeafletMarker>
+          )
+        })}
     </>
   )
 }
 
 Markers.propTypes = {
   currentLocation: PropTypes.array.isRequired,
+}
+
+function ClusterMarker ({ location }) {
+  return (
+    <LeafletMarker position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
+      <Popup>
+        {location.properties.point_count} construction(s)
+      </Popup>
+    </LeafletMarker>
+  )
 }
