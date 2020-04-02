@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Provider } from 'react-redux'
 
 import './App.css'
-import { Map } from 'components/Map'
+import { Map } from 'components/map'
 import { store } from 'store'
 import { getAllConstructions } from 'store/thunks'
 
