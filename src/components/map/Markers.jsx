@@ -30,7 +30,7 @@ function MarkersDump ({ constructions, leaflet, cluster }) {
           return (
             <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
               <Popup>
-                {location.properties.location.type}
+                {location.properties.location.description}
               </Popup>
             </LeafletMarker>
           )
