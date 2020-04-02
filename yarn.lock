@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@articulate/ducks@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@articulate/ducks/-/ducks-0.1.1.tgz#f02e93894e36ef6359084b89d3b0d345f516c708"
+  integrity sha512-DSqpDY5GFZb3NnV9o7s2czw//tya7zovQyOUjk9ZAD8RsStT9r//UP+dnZR+as3IQd/CaV3mYXxpEacrBzbHNA==
+  dependencies:
+    crocks "^0.10.1"
+
 "@babel/code-frame@7.8.3", "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -2971,6 +2978,11 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+crocks@^0.10.1:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/crocks/-/crocks-0.10.2.tgz#4bf139c8ccb2651ee682485d2c296cd4d62c0e0d"
+  integrity sha512-ifOgeKTXX+QUuTHoIshbqiPTPMkM52eqx/b2fqcfywBZx3bBpoVjCrKypq6jPfiIrd9It4AstSdtmNmUNA67Nw==
 
 cross-spawn@7.0.1:
   version "7.0.1"
