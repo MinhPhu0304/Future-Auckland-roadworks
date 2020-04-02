@@ -18,12 +18,15 @@ function MarkersDump ({ constructions, leaflet, cluster }) {
   const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
 
   const location = constructions.length !== 0 ? cluster.getClusters(bbox, leaflet.map.getZoom()) : constructions
-
+  const zoomIn = (latlng) => {
+    const currentZoom = leaflet.map.getZoom()
+    leaflet.map.setView(latlng, currentZoom + 3)
+  }
   return (
     <>
       {
         location.map((location, index) => {
-          if (location.properties.cluster) return (<ClusterMarker location={location} key={index} />)
+          if (location.properties.cluster) return (<ClusterMarker location={location} key={index} zoomIn={zoomIn} />)
           return (
             <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
               <Popup>
@@ -40,13 +43,13 @@ Markers.propTypes = {
   currentLocation: PropTypes.array.isRequired,
 }
 
-function ClusterMarker ({ location }) {
+function ClusterMarker ({ location, zoomIn }) {
   const icon = divIcon({
     className: 'Cluster',
     html: renderToString(<ClusterMarkerStyle location={location} />)
   })
   return (
-    <LeafletMarker icon={icon} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]} >
+    <LeafletMarker icon={icon} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]} onClick={() => zoomIn([location.geometry.coordinates[1], location.geometry.coordinates[0]])} >
     </LeafletMarker>
   )
 }
