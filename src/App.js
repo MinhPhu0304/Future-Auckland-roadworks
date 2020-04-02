@@ -1,43 +1,23 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { Provider } from 'react-redux'
 
 import './App.css'
 import { Map } from './components/Map'
-import { fetchScheduledWork } from './components/DataFetching'
+import { store } from 'store'
+import { getAllConstructions } from 'store/thunks'
 
 export const State = React.createContext({})
 
 export function App() {
-  const [state, dispatch] = useReducer(reducers, getInitialState())
   useEffect(() => {
-    fetchScheduledWork(dispatch)
+    store.dispatch(getAllConstructions())
   }, [])
 
   return (
-    <State.Provider value={{ dispatch, state }}>
+    <Provider store={store}>
       <div className="App">
         <Map />
       </div>
-    </State.Provider>
-  );
-}
-
-function getInitialState () {
-  return {
-    locationData: []
-  }
-}
-
-function reducers (state, payload) {
-  const { action } = payload
-
-  switch (action) {
-    case 'Change':
-      const { locationData } = payload
-      return {
-        ...state,
-        locationData
-      }
-    default:
-      return state
-  }
+    </Provider>
+  )
 }

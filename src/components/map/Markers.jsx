@@ -1,16 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { renderToString } from 'react-dom/server'
 import { divIcon } from 'leaflet'
 import PropTypes from 'prop-types'
 import { Marker as LeafletMarker, Popup, withLeaflet } from 'react-leaflet'
 
-export const Markers = withLeaflet(MarkersDump)
+export const Markers = connect(mapStateToProps)(withLeaflet(MarkersDump))
 
-function MarkersDump ({ currentLocation, leaflet, cluster }) {
+function mapStateToProps ({ constructions }) {
+  return {
+    constructions
+  }
+}
+
+function MarkersDump ({ constructions, leaflet, cluster }) {
   const bounds = leaflet.map.getBounds()
   const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
 
-  const location = currentLocation.length === 0 ? cluster.getClusters(bbox, leaflet.map.getZoom()) : currentLocation
+  const location = constructions.length !== 0 ? cluster.getClusters(bbox, leaflet.map.getZoom()) : constructions
 
   return (
     <>
