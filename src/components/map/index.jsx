@@ -3,7 +3,7 @@ import  { connect } from 'react-redux'
 import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 
 import { Clustering } from 'utils'
-import { Markers } from './Markers'
+import { Markers } from './marker'
 
 export const MapRef = React.createRef() // For future use
 
