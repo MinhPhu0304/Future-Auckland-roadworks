@@ -13,11 +13,7 @@ function mapStateToProps ({ constructions }) {
   }
 }
 
-function MarkersDump ({ constructions, leaflet, cluster }) {
-  const bounds = leaflet.map.getBounds()
-  const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
-
-  const location = constructions.length !== 0 ? cluster.getClusters(bbox, leaflet.map.getZoom()) : constructions
+function MarkersDump ({ leaflet, points }) {
   const zoomIn = (latlng) => {
     const currentZoom = leaflet.map.getZoom()
     leaflet.map.setView(latlng, currentZoom + 3)
@@ -25,7 +21,7 @@ function MarkersDump ({ constructions, leaflet, cluster }) {
   return (
     <>
       {
-        location.map((location, index) => {
+        points.map((location, index) => {
           if (location.properties.cluster) return (<ClusterMarker location={location} key={index} zoomIn={zoomIn} />)
           return (
             <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
@@ -40,7 +36,7 @@ function MarkersDump ({ constructions, leaflet, cluster }) {
 }
 
 Markers.propTypes = {
-  currentLocation: PropTypes.array.isRequired,
+  points: PropTypes.array.isRequired,
 }
 
 function ClusterMarker ({ location, zoomIn }) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import  { connect } from 'react-redux'
 import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 
@@ -18,12 +18,22 @@ function mapStateToProps ({ constructions }) {
 function MapDump ({ constructions }) {
   const initialMapView = getInitMapView()
   const position = [initialMapView.lat, initialMapView.lng]
-  const cluster = Clustering.makeCluster(constructions)
-  const [location, setLocation ] = useState([])
+  const [cluster, setCluster] = useState(Clustering.makeCluster(constructions))
+  const [points, setPoints] = useState([])
+  useEffect(() => {
+    setCluster(Clustering.makeCluster(constructions))
+  }, [constructions])
+
+  useEffect(() => {
+    const bounds = MapRef.current.leafletElement.getBounds()
+    const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
+    if (cluster.points.length > 0) setPoints(cluster.getClusters(bbox, initialMapView.zoom))
+    // eslint-disable-next-line   
+  }, [cluster])
   const handleChange = (viewPort) => {
     const bounds = MapRef.current.leafletElement.getBounds()
     const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
-    setLocation(cluster.getClusters(bbox, viewPort.zoom))
+    setPoints(cluster.getClusters(bbox, viewPort.zoom))
   }
 
   return (
@@ -32,7 +42,7 @@ function MapDump ({ constructions }) {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
-        <Markers cluster={cluster} currentLocation={location}/> 
+        <Markers points={points}/> 
       </LeafletMap>
   )
 }
