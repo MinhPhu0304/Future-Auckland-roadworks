@@ -5,7 +5,7 @@ import { Map as LeafletMap, TileLayer } from 'react-leaflet'
 import { Clustering } from 'utils'
 import { Markers } from './marker'
 
-export const MapRef = React.createRef() // For future use
+export const MapRef = React.createRef(null) // For future use
 
 export const Map = connect(mapStateToProps)(MapDump)
 
@@ -27,8 +27,8 @@ function MapDump ({ constructions }) {
   useEffect(() => {
     const bounds = MapRef.current.leafletElement.getBounds()
     const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
-    if (cluster.points.length > 0) setPoints(cluster.getClusters(bbox, initialMapView.zoom))
-    // eslint-disable-next-line   
+    if (cluster.points.length > 0) setTimeout(() => setPoints(cluster.getClusters(bbox, initialMapView.zoom)), 50)
+    // eslint-disable-next-line
   }, [cluster])
   const handleChange = (viewPort) => {
     const bounds = MapRef.current.leafletElement.getBounds()

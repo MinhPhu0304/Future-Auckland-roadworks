@@ -1,17 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { renderToString } from 'react-dom/server'
 import { divIcon } from 'leaflet'
 import PropTypes from 'prop-types'
 import { Marker as LeafletMarker, Popup, withLeaflet } from 'react-leaflet'
 
-export const Markers = connect(mapStateToProps)(withLeaflet(MarkersDump))
-
-function mapStateToProps ({ constructions }) {
-  return {
-    constructions
-  }
-}
+export const Markers = withLeaflet(MarkersDump)
 
 function MarkersDump ({ leaflet, points }) {
   const zoomIn = (latlng) => {
@@ -25,8 +18,8 @@ function MarkersDump ({ leaflet, points }) {
           if (location.properties.cluster) return (<ClusterMarker location={location} key={index} zoomIn={zoomIn} />)
           return (
             <LeafletMarker key={index} position={[location.geometry.coordinates[1], location.geometry.coordinates[0]]}>
-              <Popup>
-                {location.properties.location.description}
+              <Popup autoPan={false}>
+                {location.properties.location.description.replace("Other (Specify Below). ","")}
               </Popup>
             </LeafletMarker>
           )
