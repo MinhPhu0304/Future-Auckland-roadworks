@@ -34,4 +34,5 @@ function LoadingDumb({ pageState }) {
       </div>
     )
   }
+  return null
 }
