@@ -5,13 +5,7 @@ function getAllConstructions() {
   return async (dispatch) => {
     try {
       const res = await fetch(
-        "https://raw.githubusercontent.com/MinhPhu0304/data-dump/main/at-roadworks.json",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        "https://raw.githubusercontent.com/MinhPhu0304/data-dump/main/at-roadworks.json"
       );
       const { response } = await res.json();
       dispatch(
