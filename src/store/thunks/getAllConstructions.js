@@ -7,9 +7,10 @@ function getAllConstructions() {
       const res = await fetch(
         "https://raw.githubusercontent.com/MinhPhu0304/data-dump/main/at-roadworks.json"
       );
-      const { response } = await res.json();
+
+      const data = JSON.parse(await res.text()); // raw github user content is being an ass so this works around that
       dispatch(
-        Constructions.actions.UPDATE_CONSTRUCTIONS({ constructions: response })
+        Constructions.actions.UPDATE_CONSTRUCTIONS({ constructions: data })
       );
       dispatch(
         PageState.actions.UPDATE_PAGE_STATE({ newPageState: PAGE_STATE.LOADED })
